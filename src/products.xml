@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<constant name="struts.custom.i18n.resources" value="mes"></constant> 
+	<constant name="struts.custom.i18n.resources" value="language"></constant> 
+    
+    <package name="propage" namespace="/" extends="struts-default">
+        <action name="propage" class="cn.jbit.petshopping.web.ProductsIndex" method="page">
+    		<result name="success">/adminPage/products.jsp</result>
+    		<result name="input">/adminPage/index.jsp</result>
+    	</action>
+		<action name="uploadFile" class="cn.jbit.petshopping.web.ProductsServlet" method="upload">
+    		<param name="savePath">/update</param>
+    		<result name="success" type="chain">saveProducts</result>
+    		<result name="input">/adminPage/sign-in.jsp</result>
+    	</action>
+    	<!-- 添加商品   -->
+    	<action name="saveProducts" class="cn.jbit.petshopping.web.ProductsServlet" method="save">
+    		<result name="success" type="chain">propage</result>
+    		<result name="input">/adminPage/sign-in.jsp</result>
+    		<result name="error">/adminPage/500.jsp</result>
+    	</action>
+    	<!-- 显示商品   -->
+    	<action name="showProducts" class="cn.jbit.petshopping.web.ProductsServlet" method="fingById">
+    		<result name="success">/adminPage/sign-up.jsp</result>
+    		<result name="input">/adminPage/index.jsp</result>
+    	</action>
+    	<!-- 删除商品   -->
+    	<action name="deleteProducts" class="cn.jbit.petshopping.web.ProductsServlet" method="delete">
+    		<result name="success" type="chain">propage</result>
+    		<result name="input">/adminPage/products.jsp</result>
+    	</action>
+    	
+    	<!-- 更新商品   -->
+    	<action name="updateProducts" class="cn.jbit.petshopping.web.ProductsServlet" method="updateProducts">
+    		<param name="savePath">/update</param>
+    		<result name="success" type="chain">propage</result>
+    		<result name="input">/adminPage/index.jsp</result>
+    	</action>
+    	<!-- 查找商品   -->
+    	<action name="findByType" class="cn.jbit.petshopping.web.ProductsServlet" method="fingByTpe">
+    		<result name="success">/userPage/products.jsp</result>
+    		<result name="error">/userPage/index.jsp</result>
+    	</action>
+	</package>
+	<package name="ptotype" namespace="/" extends="struts-default">
+	     <action name="addProtype" class="cn.jbit.petshopping.web.ProtypeServlet" method="save">
+	        <result name="success">/adminPage/addProtype.jsp</result>
+	        <result name="input">/adminPage/addProtype.jsp</result>
+	        <result name="error">/adminPage/500.jsp</result>
+	     </action>
+	</package>
+	<package name="dogOrproducts" namespace="/" extends="struts-default">
+	     <action name="dogOrproducts" class="cn.jbit.petshopping.web.DogOrProductsAction" method="fingByType">
+	        <result name="success">/userPage/project_all.jsp</result>
+	        <result name="input">/userPage/index.jsp</result>
+	        <result name="error">../500.jsp</result>
+	     </action>
+	</package>
+</struts>

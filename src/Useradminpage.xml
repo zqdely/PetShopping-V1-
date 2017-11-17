@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<constant name="struts.custom.i18n.resources" value="mes"></constant> 
+	<constant name="struts.custom.i18n.resources" value="language"></constant> 
+	
+    <package name="default" namespace="/" extends="json-default">
+		<!-- 季度销售统计 -->
+		<action name="chartdate" class="cn.jbit.petshopping.web.adminIndex" method="chartinfo">
+    		<result type="json">
+    			<param name="root">result</param>
+    			<param name="excludeNullProperties ">true</param>
+				<param name="contentCharSet">utf-8</param>
+    		</result>
+    	</action>
+    	
+    	
+    </package>
+	<package name="page" namespace="/" extends="struts-default">
+		<action name="page" class="cn.jbit.petshopping.web.adminIndex" method="page">
+    		<result name="success">/adminPage/users.jsp</result>
+    		<result name="input">/adminPage/index.jsp</result>
+    	</action>
+    	<action name="updateUser" class="cn.jbit.petshopping.web.UserUpdateAction" method="update">
+    		<result name="success">/adminPage/user.jsp</result>
+    		<result name="input">/adminPage/index.jsp</result>
+    	</action>
+    	
+    	<action name="delete" class="cn.jbit.petshopping.web.UserUpdateAction" method="delete">
+    		<result name="success" type="chain">page</result>
+    	</action>
+    	
+	</package>
+	
+	
+	<package name="dog" namespace="/" extends="struts-default">
+		<action name="upload" class="cn.jbit.petshopping.web.DogAction" method="upload">
+        	<param name="savePath">/update</param>
+        	<result type="chain">saveDog</result>
+        </action>
+        <action name="saveDog" class="cn.jbit.petshopping.web.DogAction" method="saveDog">
+        	<result type="chain">pageDogs</result>
+        	<result name="input">addDog.jsp</result>
+        	<result name="error">/adminPage/500.jsp</result>
+        </action>
+        
+        <action name="modefy" class="cn.jbit.petshopping.web.DogAction" method="updateDog">
+     		<param name="savePath">/update</param>
+        	<result  type="chain">pageDogs</result>
+        	<result name="input">404.jsp</result>
+        </action>
+         <action name="pageDogs" class="cn.jbit.petshopping.web.UpdateDogAction" method="dogsPage">
+        	<result name="success">/adminPage/dogs.jsp</result>
+        	<result name="input">/adminPage/index.jsp</result>
+        </action>
+        
+        <action name="updatedog" class="cn.jbit.petshopping.web.UpdateDogAction" method="updatedog">
+        	<result name="success">updateDog.jsp</result>
+        	<result name="input">index.jsp</result>
+        </action>
+        
+     	
+        
+        <action name="deleteDog" class="cn.jbit.petshopping.web.UpdateDogAction" method="delete">
+    		<result name="success" type="chain">pageDogs</result>
+    	</action>
+    	<action name="addDogType" class="cn.jbit.petshopping.web.DogAction" method="addDogType">
+    		<result name="success">addDogType.jsp</result>
+    		<result name="input">addDogType.jsp</result>
+    	</action>
+    	
+    	<action name="findValuations" class="cn.jbit.petshopping.web.ValuationAction" method="findValuations">
+    		<result name="success">/adminPage/valuations.jsp</result>
+    		<result name="input">/adminPage/index.jsp</result>
+    	</action>
+    	<action name="deleteValuation" class="cn.jbit.petshopping.web.ValuationAction" method="delete">
+    		<result name="success" type="chain">findValuations</result>
+    		
+    	</action>
+	</package>
+</struts>

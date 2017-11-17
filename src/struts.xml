@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 用户登录注册 -->
+	<include file="users.xml"/>
+	<!-- 管理员操作页面 -->
+	<include file="Useradminpage.xml"/>
+	<!-- 添加商品页面（王博） -->
+    <include file="products.xml"/>
+    <!-- 前台页面——商品 -->
+    <include file="goodsinfo.xml"/>
+</struts>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<constant name="struts.custom.i18n.resources" value="mes"></constant> 
+	<constant name="struts.custom.i18n.resources" value="language"></constant> 
+	
+    <package name="default" namespace="/" extends="json-default">
+		<!-- 创建全局变量 -->
+    	<global-results>
+    		<result name="error">503page.jsp</result>
+    		<result name="login">/login.jsp</result>
+    	</global-results>
+    	   	
+    	<action name="login" class="cn.jbit.petshopping.web.UserOprationServlet" method="Login">
+    		<result name="success">adminPage/index.jsp</result>
+    		<result name="userlogin">userPage/index.jsp</result>
+    		<result name="emailurl">registersuccess.jsp</result>
+    		<result name="input">login.jsp</result>
+    	</action>
+    	
+    	<action name="register" class="cn.jbit.petshopping.web.UserOprationServlet" method="Register">
+    		<result>registersuccess.jsp</result>
+    		<result name="input">register.jsp</result>
+    	</action>
+    	<!-- 激活程序的action -->
+    	<action name="activation" class="cn.jbit.petshopping.web.UserOprationServlet" method="activation">
+    		<result>login.jsp</result>
+    	</action>
+    	<!-- 用户名和邮箱的重复验证使用的是同一个方法 -->
+    	<action name="registerNameServlet" class="cn.jbit.petshopping.web.RegisterNameServlet" method="registerNameJud">
+    		<result type="json">
+    			<param name="root">result</param>
+    			<param name="excludeNullProperties ">true</param>
+				<param name="contentCharSet">utf-8</param>
+    		</result>
+    	</action>
+    	<!-- 忘记密码重置action -->
+    	<!-- 通过emai连接的action -->
+    	<action name="resetepwdinfo" class="cn.jbit.petshopping.web.ResetPasswordServlet" method="ResetPassword">
+    		<result name="success">PromptPage/ResetPwdSuccesslogin.jsp</result>
+    		<result name="input">PromptPage/noregisteremail.jsp</result>
+    	</action>
+    	<!-- 重置过程发送email的action -->
+    	<action name="resetsendemail" class="cn.jbit.petshopping.web.ResetPasswordServlet" method="PwdEmailSend">
+    		<result name="success">PromptPage/ResetPwdSuccess.jsp</result>
+    		<result name="input">PromptPage/noregisteremail.jsp</result>
+    	</action>
+    	<!-- 重置过程通过发送email对接action -->
+    	<action name="resetsendemailinterface" class="cn.jbit.petshopping.web.ResetPasswordServlet" method="ResetPwdResent">
+    		<result name="success">PromptPage/ResetPasswordwrite.jsp</result>
+    	</action>
+    	
+    	<!--页首购物车图标信息显示 -->
+		<action name="cartinfo" class="cn.jbit.petshopping.web.Cart" method="cartinfo">
+			<result type="json">
+    			<param name="root">result</param>
+    			<param name="excludeNullProperties ">true</param>
+				<param name="contentCharSet">utf-8</param>
+    		</result>
+		</action>
+    </package>
+    
+    <package name="user" namespace="/" extends="struts-default">
+    	<action name="findUser" class="cn.jbit.petshopping.web.UserAction" method="findUser">
+    		<result name="success">/user/user.jsp</result>
+    		<result name="input">/user/index.jsp</result>
+    	</action>
+    	<action name="update" class="cn.jbit.petshopping.web.UserUpdateAction" method="updateUser">
+    		<result name="success" type="chain">findUser</result>
+    	</action>
+    	
+    	<action name="findOrders" class="cn.jbit.petshopping.web.OrderAction" method="findOrders">
+    		<result name="success">/user/orders.jsp</result>
+    	</action>
+    	<action name="deleteOrders" class="cn.jbit.petshopping.web.OrderAction" method="delete">
+    		<result name="success" type="chain">findOrders</result>
+    	</action>
+    	<action name="findOrder" class="cn.jbit.petshopping.web.ValuationAction" method="findOrder">
+    		<result name="success">valuation.jsp</result>
+    	</action>
+    	<action name="addValuation" class="cn.jbit.petshopping.web.ValuationAction" method="addValuation">
+    		<result name="success">403.jsp</result>
+    		<result name="input">valuation.jsp</result>
+    	</action>
+    </package>
+</struts>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true"></constant>
+	<constant name="struts.custom.i18n.resources" value="mes"></constant> 
+	<constant name="struts.custom.i18n.resources" value="language"></constant> 
+    
+    <package name="prodpage" namespace="/" extends="struts-default">
+		<!-- 创建全局变量 -->
+    	<global-results>
+    		<result name="error">/503page.jsp</result>
+    		<result name="login">/login.jsp</result>
+    		<result name="input" type="chain">submitGoods</result>
+    	</global-results>
+    	<!-- 查看宠物详细信息 -->
+		<action name="goodinfoall" class="cn.jbit.petshopping.web.GoodAllInfo" method="GoodInfo">
+			<result name="success">/userPage/good_all_info.jsp</result>
+		</action>
+		<!-- 添加到购物车,添加提示 -->
+		<action name="addgoodcart" class="cn.jbit.petshopping.web.Cart" method="addOrders">
+			<result name="success">/userPage//good_all_info.jsp</result>
+		</action>
+		<!-- 购物车商品列表 -->
+		<action name="cartlist" class="cn.jbit.petshopping.web.Cart" method="cartList">
+			<result name="success">/userPage/cart.jsp</result>
+		</action>
+		<!-- 首页信息展示 -->
+		<action name="indexdate" class="cn.jbit.petshopping.web.UserIndex" method="loadDate">
+			<result>/userPage/index.jsp</result>
+		</action>
+		<!-- 删除订单确认action -->
+		<!-- 删除订单 -->
+		<action name="deleteGood" class="cn.jbit.petshopping.web.Cart" method="deleteGood">
+			<result type="stream">
+            	<param name="contentType">text/html</param><!-- 页面 -->
+            	<param name="contentCharSet">utf-8</param>
+            </result>
+		</action>
+		<!-- 提交订单跳转到订单确认页面 -->
+		<action name="submitGoods" class="cn.jbit.petshopping.web.Cart" method="submitGoods">
+			<result name="success">/userPage/ordersInfo.jsp</result>
+			<result name="input">/userPage/cart.jsp</result>
+		</action>
+		<!-- 支付接口 -->
+		<action name="Payprot" class="cn.jbit.petshopping.web.PayPort" method="execute">
+			<result name="success" type="chain">updateOrdersid</result>
+			<!-- 支付失败的时候跳转的页面 -->
+			<!-- <result name="error"></result> -->
+		</action>
+		<!-- 支付成功,修改买家付款标识 -->
+		<action name="updateOrdersid" class="cn.jbit.petshopping.web.Cart" method="submitOrdersUpdateid">
+			<result type="stream">
+            	<param name="contentType">text/html</param><!-- 页面 -->
+            	<param name="contentCharSet">utf-8</param>
+            </result>
+		</action>
+	</package>
+	
+	<package name="cartupdate"  namespace="/" extends="json-default">
+		<global-results>
+			<result name="input">/userPage/cart.jsp</result>
+		</global-results>
+		<!-- 修改订单信息 -->
+		<action name="changordersMoney" class="cn.jbit.petshopping.web.Cart" method="updateGoodInfo">
+			<result type="json">
+    			<param name="root">result</param>
+    			<param name="excludeNullProperties ">true</param>
+				<param name="contentCharSet">utf-8</param>
+    		</result>
+		</action>
+		<!-- 提交订单action -->
+		<action name="submitOrders" class="cn.jbit.petshopping.web.Cart" method="submitOrders">
+			<result type="json">
+    			<param name="root">result</param>
+    			<param name="excludeNullProperties ">true</param>
+				<param name="contentCharSet">utf-8</param>
+    		</result>
+		</action>
+		
+	</package>
+
+</struts>

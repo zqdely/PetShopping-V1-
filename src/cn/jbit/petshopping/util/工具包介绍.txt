@@ -1,0 +1,7 @@
+HibernateSessionFactory.java:hibernate自动生成的session生成工具
+MD5Secret.java：md5加密所需的工具类，需要的参数是一个需要加密的字符串，返回参数是一个加密之后的字符串
+MailSenderInfo.java：邮件发送所需要的实体类参数（封装）
+MyAuthenticator.java：如果需要身份认证时候创建的一个密码验证器实体类
+SimpleMailSender.java：简单邮件（不带附件的邮件）发送器
+SendEmail.java：邮件发送类，不带附件
+SendEmail.java:截取字符串(用于邮箱验证，李迎)
